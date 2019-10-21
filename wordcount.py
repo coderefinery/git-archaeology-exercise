@@ -6,7 +6,7 @@ def load_text(filename):
     trailing newlines stripped.
     """
     with open(filename, "r") as input_fd:
-        lines = input_fd.read()
+        lines = input_fd.read().splitlines()
     return lines
 
 if __name__ == '__main__':
