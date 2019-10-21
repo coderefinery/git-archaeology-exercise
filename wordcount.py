@@ -9,17 +9,19 @@ def load_text(filename):
         lines = input_fd.read().splitlines()
     return lines
 
+def update_word_counts(line, counts):
+    words = line.split()
+    for word in words:
+        word = word.lower().strip()
+        if word in counts:
+            counts[word] += 1
+        else:
+            counts[word] = 1
+
 def calculate_word_counts(lines):
     counts = {}
     for line in lines:
-        words = line.split()
-        for word in words:
-            word = word.lower().strip()
-            if word in counts:
-                counts[word] += 1
-            else:
-                counts[word] = 1
-
+        update_word_counts(line, counts)
     return counts
 
 def word_count(input_file):
