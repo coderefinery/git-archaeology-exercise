@@ -29,12 +29,18 @@ def calculate_word_counts(lines):
         update_word_counts(line, counts)
     return counts
 
+def word_count_dict_to_tuples(counts, decrease=True):
+    return sorted(list(counts.items()), key=lambda key_value: key_value[1],
+                  reverse=decrease)
+
+
 def word_count(input_file, output_file, min_length=1):
     lines = load_text(input_file)
     counts = calculate_word_counts(lines)
+    sorted_counts = word_count_dict_to_tuples(counts)
     with open(output_file, 'w') as output:
-        for count in counts:
-            output.write("{} {}\n".format(count, counts[count]))
+        for count in sorted_counts:
+            output.write("%s\n" % " ".join(str(c) for c in count))
 
 
 
