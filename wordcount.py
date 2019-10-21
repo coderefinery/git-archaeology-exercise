@@ -12,6 +12,15 @@ def load_text(filename):
         lines = input_fd.read().splitlines()
     return lines
 
+def save_word_counts(filename, counts):
+    """
+    Save a list of [word, count, percentage] lists to a file, in the form
+    "word count percentage", one tuple per line.
+    """
+    with open(filename, 'w') as output:
+        for count in counts:
+            output.write("%s\n" % " ".join(str(c) for c in count))
+
 def update_word_counts(line, counts):
     for purge in DELIMITERS:
         line = line.replace(purge, " ")
@@ -58,10 +67,7 @@ def word_count(input_file, output_file, min_length=1):
     sorted_counts = word_count_dict_to_tuples(counts)
     sorted_counts = filter_word_counts(sorted_counts, min_length)
     percentage_counts = calculate_percentages(sorted_counts)
-    with open(output_file, 'w') as output:
-        for count in percentage_counts:
-            output.write("%s\n" % " ".join(str(c) for c in count))
-
+    save_word_counts(output_file, percentage_counts)
 
 
 if __name__ == '__main__':
