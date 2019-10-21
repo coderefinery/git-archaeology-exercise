@@ -22,6 +22,12 @@ def save_word_counts(filename, counts):
             output.write("%s\n" % " ".join(str(c) for c in count))
 
 def update_word_counts(line, counts):
+    """
+    Given a string, parse the string and update a dictionary of word
+    counts (mapping words to counts of their frequencies). DELIMITERS are
+    removed before the string is parsed. The function is case-insensitive
+    and words in the dictionary are in lower-case.
+    """
     for purge in DELIMITERS:
         line = line.replace(purge, " ")
     words = line.split()
@@ -33,12 +39,24 @@ def update_word_counts(line, counts):
             counts[word] = 1
 
 def calculate_word_counts(lines):
+    """
+    Given a list of strings, parse each string and create a dictionary of
+    word counts (mapping words to counts of their frequencies). DELIMITERS
+    are removed before the string is parsed. The function is
+    case-insensitive and words in the dictionary are in lower-case.
+    """
     counts = {}
     for line in lines:
         update_word_counts(line, counts)
     return counts
 
 def word_count_dict_to_tuples(counts, decrease=True):
+    """
+    Given a dictionary of word counts (mapping words to counts of their
+    frequencies), convert this into an ordered list of tuples (word,
+    count). The list is ordered by decreasing count, unless increase is
+    True.
+    """
     return sorted(list(counts.items()), key=lambda key_value: key_value[1],
                   reverse=decrease)
 
@@ -54,6 +72,11 @@ def filter_word_counts(counts, min_length=1):
     return stripped
 
 def calculate_percentages(counts):
+    """
+    Given a list of (word, count) tuples, create a new list (word, count,
+    percentage) where percentage is the percentage number of occurrences
+    of this word compared to the total number of words.
+    """
     total = 0
     for count in counts:
         total += count[1]
@@ -62,6 +85,12 @@ def calculate_percentages(counts):
     return tuples
 
 def word_count(input_file, output_file, min_length=1):
+    """
+    Load a file, calculate the frequencies of each word in the file and
+    save in a new file the words, counts and percentages of the total  in
+    descending order. Only words whose length is >= min_length are
+    included.
+    """
     lines = load_text(input_file)
     counts = calculate_word_counts(lines)
     sorted_counts = word_count_dict_to_tuples(counts)
