@@ -44,14 +44,22 @@ def filter_word_counts(counts, min_length=1):
             stripped.append((word, count))
     return stripped
 
+def calculate_percentages(counts):
+    total = 0
+    for count in counts:
+        total += count[1]
+    tuples = [(word, count, (float(count) / total) * 100.0)
+              for (word, count) in counts]
+    return tuples
 
 def word_count(input_file, output_file, min_length=1):
     lines = load_text(input_file)
     counts = calculate_word_counts(lines)
     sorted_counts = word_count_dict_to_tuples(counts)
     sorted_counts = filter_word_counts(sorted_counts, min_length)
+    percentage_counts = calculate_percentages(sorted_counts)
     with open(output_file, 'w') as output:
-        for count in sorted_counts:
+        for count in percentage_counts:
             output.write("%s\n" % " ".join(str(c) for c in count))
 
 
