@@ -29,13 +29,19 @@ def calculate_word_counts(lines):
         update_word_counts(line, counts)
     return counts
 
-def word_count(input_file):
+def word_count(input_file, output_file, min_length=1):
     lines = load_text(input_file)
     counts = calculate_word_counts(lines)
-    return counts
+    with open(output_file, 'w') as output:
+        for count in counts:
+            output.write("{} {}\n".format(count, counts[count]))
+
 
 
 if __name__ == '__main__':
     input_file = sys.argv[1]
-    counts = word_count(input_file)
-    print(counts)
+    output_file = sys.argv[2]
+    min_length = 1
+    if len(sys.argv) > 3:
+        min_length = int(sys.argv[3])
+    word_count(input_file, output_file, min_length)
