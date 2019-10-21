@@ -1,5 +1,8 @@
 import sys
 
+DELIMITERS = ". , ; : ? $ @ ^ < > # % ` ! * - = ( ) [ ] { } / \" '".split()
+
+
 def load_text(filename):
     """
     Load lines from a plain-text file and return these as a list, with
@@ -10,6 +13,8 @@ def load_text(filename):
     return lines
 
 def update_word_counts(line, counts):
+    for purge in DELIMITERS:
+        line = line.replace(purge, " ")
     words = line.split()
     for word in words:
         word = word.lower().strip()
