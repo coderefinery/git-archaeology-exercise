@@ -9,6 +9,26 @@ def load_text(filename):
         lines = input_fd.read().splitlines()
     return lines
 
+def calculate_word_counts(lines):
+    counts = {}
+    for line in lines:
+        words = line.split()
+        for word in words:
+            word = word.lower().strip()
+            if word in counts:
+                counts[word] += 1
+            else:
+                counts[word] = 1
+
+    return counts
+
+def word_count(input_file):
+    lines = load_text(input_file)
+    counts = calculate_word_counts(lines)
+    return counts
+
+
 if __name__ == '__main__':
     input_file = sys.argv[1]
-    lines = load_text(input_file)
+    counts = word_count(input_file)
+    print(counts)
